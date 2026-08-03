@@ -11,114 +11,133 @@ class IndexController
 
 	private $view;
 
-	public function __construct() 
+	public function __construct()
 	{
-        $this->view =  new \Slim\Views\Twig('../templates', [
-			'cache' => '../templates/cache'
-		]);
-    }
+		$this->view = new \Slim\Views\Twig(
+			__DIR__ . '/../../templates',
+			[
+				'cache' => false
+			]
+		);
+	}
 
-	public function getAllNews($arr_xml, $result = array()) 
+	public function getAllNews($arrXml, $currentSite = 'all')
 	{
-		for ($i=0; $i < count($arr_xml) ; $i++) 
-		{
-			$key1 = array_keys( $arr_xml )[$i];
-			for ($j=0; $j <= 4 ; $j++) 
-			{				
-				$key2 = array_keys( $arr_xml[$key1])[$j];
-				$header = [
-					'site' => $key1,
-					'section' => $key2,
-					'headline' => null
+		$result = [];
+
+		foreach ($arrXml as $site => $sections) {
+			foreach ($sections as $section => $feedUrl) {
+				$result[] = [
+					'site' => $site,
+					'section' => $section,
+					'headline' => $this->readXML($feedUrl)
 				];
-				$headline = array();
-				for ($k=0; $k < self::NEWS_LIMIT ; $k++) 
-				{			
-					$xml =  $arr_xml[$key1][$key2];					
-					$xml = simplexml_load_file($xml);	
-					$res = $this->readXML($xml);	
-					array_push($headline, $res);			
-				}
-				$header['headline'] = $headline;
-				array_push($result, $header);	
 			}
-		}		
-				
+		}
+
 		return $this->view->fetch('midias/midia.html.twig', [
 			'news' => $result,
-			'hour' => $this->getHourNow()
+			'hour' => $this->getHourNow(),
+			'current_site' => $currentSite
 		]);
 	}
 
-	public function getNewsBySitename($request, $arr_xml, $result = array()) 
+	public function getNewsBySitename($sitename, $arrXml)
 	{
-		$uri = $request->getUri()->getPath();
-		$sitename = str_replace('/', '', $uri);
-		
-		if ($sitename && in_array($sitename, array_keys( $arr_xml )))
-		{
-			for ($j=0; $j <= 4 ; $j++) 
-			{				
-				$key2 = array_keys( $arr_xml[$sitename])[$j];
-				$header = [
-					'site' => $sitename,
-					'section' => $key2,
-					'headline' => null
-				];
-				$headline = array();
-				for ($k=0; $k < self::NEWS_LIMIT ; $k++) 
-				{			
-					$xml =  $arr_xml[$sitename][$key2];					
-					$xml = simplexml_load_file($xml);	
-					$res = $this->readXML($xml);	
-					array_push($headline, $res);			
-				}
-				$header['headline'] = $headline;
-				array_push($result, $header);	
-			}
-
-			//print_r($result);die;
-				
-			return $this->view->fetch('midias/midia.html.twig', [
-				'news' => $result,
-				'hour' => $this->getHourNow()
-			]);
+		if (!isset($arrXml[$sitename])) {
+			return $this->getAllNews($arrXml, 'all');
 		}
+
+		return $this->getAllNews([
+			$sitename => $arrXml[$sitename]
+		], $sitename);
 	}
 
-	public function readXML($xml, $list = array())
-	{		
-		for ($i=0; $i < count($xml) ; $i++) 
-		{
-			if ( isset($xml->channel->item[$i]->title) )
-			{
-				$title = $xml->channel->item[$i]->title;
-				$description = strip_tags($xml->channel->item[$i]->description);
-				$link = $xml->channel->item[$i]->link;
-			} else if ( isset($xml->entry[$i]->title) )
-			{
-				$title = $xml->entry[$i]->title;
-				$description = ( isset($xml->entry[$i]->content) ? 
-					$xml->entry[$i]->content : $xml->entry[$i]->summary );
-				$link = $xml->entry[$i]->title;
+	public function readXML($feedUrl)
+	{
+		libxml_use_internal_errors(true);
+
+		$feedUrl = preg_replace('#^http://#', 'https://', $feedUrl);
+
+		$curl = curl_init($feedUrl);
+
+		curl_setopt_array($curl, [
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_TIMEOUT => 10,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_2_0,
+			CURLOPT_USERAGENT => 'Mozilla/5.0',
+			CURLOPT_HTTPHEADER => [
+				'Accept: application/rss+xml, application/xml, text/xml',
+				'Accept-Language: pt-BR,pt;q=0.9'
+			],
+			CURLOPT_ENCODING => ''
+		]);
+
+		$content = curl_exec($curl);
+		$status = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+		curl_close($curl);
+
+		if ($content === false || $status >= 400) {
+			return [];
+		}
+
+		$xml = @simplexml_load_string(
+			$content,
+			'SimpleXMLElement',
+			LIBXML_NOCDATA
+		);
+
+		if ($xml === false) {
+			return [];
+		}
+
+		$items = isset($xml->channel->item)
+			? $xml->channel->item
+			: $xml->entry;
+
+		$list = [];
+
+		foreach ($items as $item) {
+			if (count($list) >= self::NEWS_LIMIT) {
+				break;
 			}
 
-			$l = [
-				'title' => (string) $title,
-				'description' => (string) $description,
-				'link' => (string) $link
+			$title = (string) $item->title;
+
+			$description = isset($item->description)
+				? (string) $item->description
+				: (isset($item->content) ? (string) $item->content : (string) $item->summary);
+
+			$link = isset($item->link['href'])
+				? (string) $item->link['href']
+				: (string) $item->link;
+
+			$list[] = [
+				'title' => $title,
+				'description' => strip_tags($description),
+				'link' => $link
 			];
-			array_push($list, $l);
 		}
 
 		return $list;
 	}
 
 	public function getAllMidias($request)
-	{		
-		$yaml = Yaml::parse(file_get_contents('../rss/rss.yml'));
-		//return $this->getAllNews( array_shift($yaml) );
-		return $this->getNewsBySitename($request, array_shift($yaml));
+	{
+		$yaml = Yaml::parse(
+			file_get_contents(__DIR__ . '/../../rss/rss.yml')
+		);
+
+		$feeds = array_shift($yaml);
+		$sitename = $request->getQueryParam('site', 'all');
+
+		if ($sitename === 'all') {
+			return $this->getAllNews($feeds, 'all');
+		}
+
+		return $this->getNewsBySitename($sitename, $feeds);
 	}
 
 	public function getHourNow()
@@ -126,6 +145,4 @@ class IndexController
 		date_default_timezone_set("America/Sao_Paulo");
 		return date('H:i');
 	}
-
-
 }

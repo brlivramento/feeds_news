@@ -1,47 +1,119 @@
 {% extends "base.html.twig" %}
 
-{% block title %}{% endblock %}
+{% block title %}Feed de Notícias{% endblock %}
 
 {% block content %}
+<div class="row news-page">
+    <main class="col-md-9">
+        <div class="row">
+            {% for n in news %}
+                {% if n.headline is not empty %}
+                    <section
+                        id="{{ n.site }}-{{ n.section }}"
+                        class="col-md-6 news-section"
+                    >
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <strong>{{ n.site|capitalize }}</strong>
+                                <span class="pull-right">{{ n.section|capitalize }}</span>
+                            </div>
 
-<div class="row">				
-	<div id="myTabContent" class="col-lg-9 tab-content">
-	
-		{% for n in news %}
-			<div id="{{ n.section }}" class="tab-pane fade active in">		
-				<div class="noticia col-lg-4">
-					{% for h in n.headline %}
-						<div class="titulo">
-							<h3 class="in"> {{ h.title }} </h3>
-						</div>		
-						<div class="descricao">
-							<p> {{ h.description }} </p>
-							<a href="{{ h.link }}" class="btn btn-default btn-xs pull-right" target="_blank">Leia mais</a>
-						</div>
-					{% endfor %}
-				</div>			
-				<div class="barra"></div>	
-			</div>
-		{% endfor %}
-		
-	</div>
-	<div class="col-lg-3 pull-right">
-		<img class="logo" src="img/g1.jpg" alt="G1"><br />
-		<small class="badge"> última atualização: {{ hour }} </small>
-		<div class="space"></div>
-		<input type="button" class="btn btn-default" value="Atualizar" onclick="window.location.href=window.location.href">
-		<div class="space"></div>
-		<div class="painel">
-			<ul class="nav nav-pills nav-stacked">
-				<li class="active"><a href="#principal" data-toggle="tab">Principais Notícias</a></li>
-				<li><a href="#politica" data-toggle="tab">Política</a></li>
-				<li><a href="#economia" data-toggle="tab">Economia</a></li>
-				<li><a href="#esporte" data-toggle="tab">Esporte</a></li>
-				<li><a href="#mundo" data-toggle="tab">Mundo</a></li>					
-			</ul>
-		</div>					
-		<div class="barra"></div>					
-	</div>				
-</div>	
+                            <div class="list-group">
+                                {% for h in n.headline %}
+                                    <article class="list-group-item">
+                                        <h4 class="list-group-item-heading">
+                                            <a href="{{ h.link }}" target="_blank" rel="noopener">
+                                                {{ h.title }}
+                                            </a>
+                                        </h4>
 
+                                        {% if h.description %}
+                                            <p class="list-group-item-text">
+                                                {{ h.description|slice(0, 180) }}
+                                                {% if h.description|length > 180 %}…{% endif %}
+                                            </p>
+                                        {% endif %}
+                                    </article>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </section>
+                {% endif %}
+            {% else %}
+                <div class="col-md-12">
+                    <div class="alert alert-info">
+                        No news could be loaded for this source.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </main>
+
+    <aside class="col-md-3">
+
+        {% set logos = {
+            'uol': 'uol.jpg',
+            'terra': 'terra.jpg',
+            'g1': 'g1.jpg',
+            'r7': 'r7.jpg',
+            'ig': 'ig.jpg',
+            'folha': 'folha.jpg',
+            'bbc': 'bbc.jpg',
+            'estadao': 'estadao.jpg',
+            'yahoo': 'yahoo.png'
+        } %}
+
+        {% if current_site != 'all' and logos[current_site] is defined %}
+            <img
+                class="logo img-responsive"
+                src="img/{{ logos[current_site] }}"
+                alt="{{ current_site|capitalize }}"
+            >
+        {% endif %}
+
+        <h3>
+            {% if current_site == 'all' %}
+                Todas as fontes
+            {% else %}
+                {{ current_site|capitalize }}
+            {% endif %}
+        </h3>
+
+        <p class="text-muted">
+            <small>Última atualização: {{ hour }}</small>
+        </p>
+
+        <button
+            class="btn btn-default btn-sm"
+            type="button"
+            onclick="window.location.reload()"
+        >
+            Atualizar
+        </button>
+
+        {% if current_site != 'all' %}
+            <div class="space"></div>
+
+            <div class="painel">
+                <ul class="nav nav-pills nav-stacked">
+                    <li>
+                        <a href="#{{ current_site }}-principal">Principais Notícias</a>
+                    </li>
+                    <li>
+                        <a href="#{{ current_site }}-politica">Política</a>
+                    </li>
+                    <li>
+                        <a href="#{{ current_site }}-economia">Economia</a>
+                    </li>
+                    <li>
+                        <a href="#{{ current_site }}-esporte">Esporte</a>
+                    </li>
+                    <li>
+                        <a href="#{{ current_site }}-mundo">Mundo</a>
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </aside>
+</div>
 {% endblock %}

@@ -27,15 +27,36 @@
 				</div>
 				<div class="navbar-collapse collapse" id="navbar-main">
 					<ul class="nav navbar-nav">
-						<li><a href="#">UOL</a></li>
-						<li><a href="#">Terra</a></li>
-						<li class="active"><a href="#">G1</a></li>
-						<li><a href="#">R7</a></li>						
-						<li><a href="#">IG</a></li>
-						<li><a href="#">Folha de S.Paulo</a></li>
-						<li><a href="#">BBC Brasil</a></li>
-						<li><a href="#">Estadão</a></li>
-						<li><a href="#">Yahoo Notícias</a></li>
+						<li class="{% if current_site == 'all' %}active{% endif %}">
+							<a href="?site=all">Todos</a>
+						</li>
+						<li class="{% if current_site == 'uol' %}active{% endif %}">
+							<a href="?site=uol">UOL</a>
+						</li>
+						<li class="{% if current_site == 'terra' %}active{% endif %}">
+							<a href="?site=terra">Terra</a>
+						</li>
+						<li class="{% if current_site == 'g1' %}active{% endif %}">
+							<a href="?site=g1">G1</a>
+						</li>
+						<li class="{% if current_site == 'r7' %}active{% endif %}">
+							<a href="?site=r7">R7</a>
+						</li>
+						<li class="{% if current_site == 'ig' %}active{% endif %}">
+							<a href="?site=ig">IG</a>
+						</li>
+						<li class="{% if current_site == 'folha' %}active{% endif %}">
+							<a href="?site=folha">Folha de S.Paulo</a>
+						</li>
+						<li class="{% if current_site == 'bbc' %}active{% endif %}">
+							<a href="?site=bbc">BBC Brasil</a>
+						</li>
+						<li class="{% if current_site == 'estadao' %}active{% endif %}">
+							<a href="?site=estadao">Estadão</a>
+						</li>
+						<li class="{% if current_site == 'yahoo' %}active{% endif %}">
+							<a href="?site=yahoo">Yahoo Notícias</a>
+						</li>
 					</ul>
 				</div>
 			</div>			
