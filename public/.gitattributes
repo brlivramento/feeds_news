@@ -1,0 +1,7 @@
+public/css/bootstrap*.css linguist-vendored
+public/css/bootswatch*.css linguist-vendored
+
+public/js/bootstrap*.js linguist-vendored
+public/js/jquery*.js linguist-vendored
+
+vendor/** linguist-vendored
