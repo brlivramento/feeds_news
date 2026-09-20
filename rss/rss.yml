@@ -2,54 +2,54 @@ midias:
   g1:
     principal: 'http://g1.globo.com/dynamo/rss2.xml'
     politica: 'http://g1.globo.com/dynamo/politica/mensalao/rss2.xml'
-    econonomia: 'http://g1.globo.com/dynamo/economia/rss2.xml'
+    economia: 'http://g1.globo.com/dynamo/economia/rss2.xml'
     esporte: 'http://g1.globo.com/dynamo/carros/rss2.xml'
     mundo: 'http://g1.globo.com/dynamo/mundo/rss2.xml'
-#  ig:
-#    principal: 'http://ultimosegundo.ig.com.br/rss.xml'
-#    politica: 
-#    econonomia:
-#    esporte:
-#    mundo: 'http://ultimosegundo.ig.com.br/mundo/rss.xml'
-#  r7:
-#    principal: 'http://noticias.r7.com/brasil/feed.xml'
-#    politica: 'http://noticias.r7.com/economia/feed.xml'
-#    econonomia: 
-#    esporte:
-#    mundo: 'http://noticias.r7.com/internacional/feed.xml'
+  ig:
+     principal: 'http://ultimosegundo.ig.com.br/rss.xml'
+     politica: 
+     economia:
+     esporte:
+     mundo: 'http://ultimosegundo.ig.com.br/mundo/rss.xml'
+  # r7:
+  #    principal: 'http://noticias.r7.com/brasil/feed.xml'
+  #    politica: 'http://noticias.r7.com/economia/feed.xml'
+  #    economia: 
+  #    esporte:
+  #    mundo: 'http://noticias.r7.com/internacional/feed.xml'
   folha:	
     principal: 'http://feeds.folha.uol.com.br/folha/brasil/rss091.xml'
     politica: 'http://feeds.folha.uol.com.br/poder/rss091.xml'
-    econonomia: 'http://feeds.folha.uol.com.br/folha/dinheiro/rss091.xml'
+    economia: 'http://feeds.folha.uol.com.br/folha/dinheiro/rss091.xml'
     esporte: 'http://feeds.folha.uol.com.br/folha/esporte/rss091.xml'
     mundo: 'http://feeds.folha.uol.com.br/folha/mundo/rss091.xml'
-#  estadao:
-#    principal: 'http://www.estadao.com.br/rss/brasil.xml'
-#    politica: 'http://www.estadao.com.br/rss/politica.xml'
-#    econonomia: 
-#    esporte: 'http://www.estadao.com.br/rss/esportes.xml'
-#   mundo: 'http://www.estadao.com.br/rss/internacional.xml'
-#  bbc:
-#    principal: 'http://www.bbc.co.uk/portuguese/index.xml'
-#    politica:
-#    econonomia: 'http://www.bbc.co.uk/portuguese/topicos/economia/index.xml'
-#    mundo: 'http://www.bbc.co.uk/portuguese/topicos/internacional/index.xml'
-#    esporte:
-#  terra:
-#    principal: 'http://www.terra.com.br/rss/Controller?channelid=20e07ef2795b2310VgnVCM3000009af154d0RCRD&ctName=atomo-noticia&lg=pt-br'
-#    politica: 'http://noticias.terra.com.br/rss/Controller?channelid=058251a77fb05310VgnVCM4000009bf154d0RCRD&ctName=atomo-noticia&lg=pt-br'
-#    econonomia: 'http://economia.terra.com.br/rss/Controller?channelid=6f22bd10e1c4a310VgnVCM4000009bcceb0aRCRD&ctName=atomo-noticia&lg=pt-br'
-#    esporte: 'http://esportes.terra.com.br/rss/Controller?channelid=2d19f517cd779310VgnVCM5000009ccceb0aRCRD&ctName=atomo-noticia&lg=pt-br'
-#    mundo: 'http://noticias.terra.com.br/rss/Controller?channelid=31b0316871bf3310VgnVCM3000009af154d0RCRD&ctName=atomo-noticia&lg=pt-br'
-#  uol:
-#    principal: 'http://rss.uol.com.br/feed/noticias.xml'
-#    politica: 'http://rss.uol.com.br/feed/politica.xml'
-#    econonomia: 'http://rss.uol.com.br/feed/economia.xml'
-#    esporte: 'http://esporte.uol.com.br/futebol/ultimas/index.xml'
-#    mundo: 'http://rss.uol.com.br/feed/internacional.xml'
-#  yahoo:
-#    principal: 'http://br.noticias.yahoo.com/brasil/?format=rss'
-#    politica: 'http://br.noticias.yahoo.com/politica/?format=rss'
-#    econonomia: 'http://br.noticias.yahoo.com/economia/?format=rss'
-#    esporte: 'http://br.esporteinterativo.yahoo.com/?format=rss'
-#    mundo: 'http://br.noticias.yahoo.com/mundo/?format=rss'
+  # estadao:
+  #   principal: 'http://www.estadao.com.br/rss/brasil.xml'
+  #   politica: 'http://www.estadao.com.br/rss/politica.xml'
+  #   economia: 
+  #   esporte: 'http://www.estadao.com.br/rss/esportes.xml'
+  #   mundo: 'http://www.estadao.com.br/rss/internacional.xml'
+  bbc:
+    principal: 'http://www.bbc.co.uk/portuguese/index.xml'
+    politica:
+    economia: 'http://www.bbc.co.uk/portuguese/topicos/economia/index.xml'
+    mundo: 'http://www.bbc.co.uk/portuguese/topicos/internacional/index.xml'
+    esporte:
+  terra:
+    principal: 'http://www.terra.com.br/rss/Controller?channelid=20e07ef2795b2310VgnVCM3000009af154d0RCRD&ctName=atomo-noticia&lg=pt-br'
+    politica: 'http://noticias.terra.com.br/rss/Controller?channelid=058251a77fb05310VgnVCM4000009bf154d0RCRD&ctName=atomo-noticia&lg=pt-br'
+    economia: 'http://economia.terra.com.br/rss/Controller?channelid=6f22bd10e1c4a310VgnVCM4000009bcceb0aRCRD&ctName=atomo-noticia&lg=pt-br'
+    esporte: 'http://esportes.terra.com.br/rss/Controller?channelid=2d19f517cd779310VgnVCM5000009ccceb0aRCRD&ctName=atomo-noticia&lg=pt-br'
+    mundo: 'http://noticias.terra.com.br/rss/Controller?channelid=31b0316871bf3310VgnVCM3000009af154d0RCRD&ctName=atomo-noticia&lg=pt-br'
+  # uol:
+  #   principal: 'http://rss.uol.com.br/feed/noticias.xml'
+  #   politica: 'http://rss.uol.com.br/feed/politica.xml'
+  #   economia: 'http://rss.uol.com.br/feed/economia.xml'
+  #   esporte: 'http://esporte.uol.com.br/futebol/ultimas/index.xml'
+  #   mundo: 'http://rss.uol.com.br/feed/internacional.xml'
+  # yahoo:
+  #   principal: 'http://br.noticias.yahoo.com/brasil/?format=rss'
+  #   politica: 'http://br.noticias.yahoo.com/politica/?format=rss'
+  #   economia: 'http://br.noticias.yahoo.com/economia/?format=rss'
+  #   esporte: 'http://br.esporteinterativo.yahoo.com/?format=rss'
+  #   mundo: 'http://br.noticias.yahoo.com/mundo/?format=rss'

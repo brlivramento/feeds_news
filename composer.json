@@ -1,5 +1,5 @@
 {
-    "name": "feed_noticias",
+    "name": "br/feed_news",
     "require": {
         "slim/slim": "^3.11",
         "slim/twig-view": "^2.4",
